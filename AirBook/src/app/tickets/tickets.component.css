@@ -1,0 +1,37 @@
+/* Add these styles in your stylesheet or in a style tag in your HTML file */
+
+.top {
+    margin: 20px;
+ }
+ 
+ .receipts-wrapper {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .receipt {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .boarding-pass {
+    display: flex;
+    flex-wrap: wrap;
+ }
+ 
+ .header, .flight-info, .passengers {
+    flex: 1;
+    margin: 10px;
+ }
+ 
+ .passenger {
+    margin-bottom: 10px;
+ }
+ 
+ /* Add more styles as needed to achieve the desired look and feel */
+ 

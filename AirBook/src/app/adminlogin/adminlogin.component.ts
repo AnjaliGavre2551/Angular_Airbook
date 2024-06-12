@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-adminlogin',
@@ -8,44 +8,45 @@ import { HttpClient } from '@angular/common/http'
   styleUrls: ['./adminlogin.component.css']
 })
 export class AdminloginComponent {
-
-  errorMessage: string;
+  errorMessage: string = '';
+  message: string = '';
   adminName: string;
   password: string;
-  data!: any;
+  data: any;
+  
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.adminName = ''
-    this.password = ''
+  constructor(private http: HttpClient, private router:Router) {
+    this.adminName = '';
+    this.password = '';
     this.errorMessage = '';
   }
-
+  
   login() {
     const adminName = this.adminName;
     const password = this.password;
 
-    //http://localhost:7777/admin-registration/admin-login?adminName=kishore&password=passw0rd
-
     let url = `http://localhost:7777/admin-registration/admin-login?adminName=${this.adminName}&password=${this.password}`;
-    this.http.post<any>(url, null).subscribe(data => {
-      alert(JSON.stringify(data));
-      this.data = data;
+    this.http.post<any>(url, null).subscribe(
+      (data) => {
+        this.data = data;
 
-    if (adminName === data.adminName && password === data.password) {
-      alert('Login successful ' + `username: ${this.adminName} ` + `password:${this.password}`);
-      // Successful login, perform necessary actions (e.g., navigate to a different page)
-      this.router.navigate(['/admindash']);
-    } else {
-      alert('Login failed');
-      // Display an error message to the user (e.g., incorrect username or password)
-      this.errorMessage = 'Incorrect username or password';
-    }
-    })
-
-    
+        if (this.adminName === 'your_username' && this.password === 'your_password') {
+          this.message = 'Invalid username and password!';
+          // You may want to navigate to another page or perform other actions upon successful login
+        } else {
+          this.errorMessage = 'Login is successful!';
+        }
+      },
+      // (error) => {
+      //   console.error('Error during login:', error);
+      //   alert('An error occurred during login');
+      //   // Handle the error appropriately (e.g., display a user-friendly error message)
+      // }
+    );
   }
+
   cancel() {
     this.router.navigate(['/admindash']);
   }
+  
 }
-

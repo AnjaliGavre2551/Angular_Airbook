@@ -1,0 +1,44 @@
+<main>
+   <div class="top">
+      <div class="receipts-wrapper">
+         <div class="receipts">
+            <div *ngFor="let reservation of reservationsData" class="receipt">
+               <div class="boarding-pass">
+                  <div class="header">
+                     <h2>Reservation ID: {{ reservation.reservationId }}</h2>
+                     <p>Amount: {{ reservation.amount }}</p>
+                     <p>Flight Class: {{ reservation.flightClass }}</p>
+                     <p>Reservation Date: {{ reservation.reservationDate }}</p>
+                  </div>
+                  <div class="flight-info">
+                     <h3>Flight Information</h3>
+                     <p>Flight ID: {{ reservation.flight.flightId }}</p>
+                     <p>From: {{ reservation.flight.from }}</p>
+                     <p>To: {{ reservation.flight.to }}</p>
+                     <p>Departure Time: {{ reservation.flight.departureTime }}</p>
+                     <p>Arrival Time: {{ reservation.flight.arrivalTime }}</p>
+                  </div>
+                  <div class="passengers">
+                     <h3>Passengers</h3>
+                     <div *ngFor="let passenger of reservation.passengers" class="passenger">
+                        <p>First Name: {{ passenger.firstName }}</p>
+                        <p>Last Name: {{ passenger.lastName }}</p>
+                        <p>Gender: {{ passenger.gender }}</p>
+                        <hr />
+                     </div>
+                  </div>
+               </div>
+               <hr />
+               <div class="d-flex">
+                  <button type="button" class="btn btn-primary" (click)="convertToPDF()">Print</button>
+                  <button type="button" class="btn btn-danger">Cancel ticket</button>
+                  <h6>Ticket Cancellation policy</h6>
+               </div>
+            </div>
+         </div>
+         <div *ngIf="!reservationsData || reservationsData.length === 0">
+            <h5>No tickets available.</h5>
+         </div>
+      </div>
+   </div>
+</main>

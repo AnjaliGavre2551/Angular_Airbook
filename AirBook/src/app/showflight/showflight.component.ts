@@ -1,37 +1,159 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-showflight',
   templateUrl: './showflight.component.html',
   styleUrls: ['./showflight.component.css']
 })
-export class ShowflightComponent {
+
+export class ShowflightComponent implements OnInit {
+
 
   flights: any[] = JSON.parse(sessionStorage.getItem('flights') || '[]');
-  
-  ngOnInit() {
+  selectedPriceRange: number = 50; //new change
+  filterFlightsByPrice: any;
+  selectedFlight!: any;
+  filteredFlights = this.flights;
+  flightsli: flightsli = new flightsli();
+  flightList: flightsli[] = []
+  p1: any;
+  p2: any;
+  selectedSortOption: string = '';
+  //preferredAirlines: any[] = [];  //started changes====
+ preferredAirlines: any[] = [
+  { name: "Air India" },
+  { name: "Air India Express" },
+  { name: "air asia" },
+  { name: "Akasa Air" },
+  { name: "IndiGO" },
+  { name: "SpiceJet" }
+];
+
+  selectedAirlines: string[] = [];
+  flightsString = sessionStorage.getItem("flights");
+  selectedTimeRange: string = ''; // This will store the selected time range //working on Time Range======================
+  constructor(private http: HttpClient, private router: Router) {
+
+  }
+
+  selectPreferredAirline() {
+    // console.log("preferred air lines==> :" + this.preferredAirlines)
+    // const selectedAirlines = this.preferredAirlines.filter(airline => airline.selected);
+    // console.log("selectedAirline ==>>"+this.selectedAirlines)
+    // this.selectedFlight = selectedAirlines.map(airline => airline.name);
     
-    // "airline": null,
-    // "departureTime": "2023-11-05T10:00:00",
-    // "arrivalTime": "2023-11-05T15:30:00",
-    // "from": "Mumbai",
-    // "to": "Goa",
-      }
+    // alert("You have selected " + this.selectedFlight + " as preferred airlines");
+    //  this.filteredFlights=this.flights.filter(flight=>this.selectedFlight.includes(flight.flightName));
+
+    const selectedAirlines = this.preferredAirlines.filter(airline => airline.selected);
+    console.log("selectedAirlines==>"+this.selectedAirlines)
+    this.selectedFlight = selectedAirlines.map(airline => airline.name);
+   
+    alert("You have selected " + this.selectedFlight + " as preferred airlines");
+   
+        // Filter flightList based on selectedFlight
+     // const filteredFlights = this.flights.filter(flight => flight.flightName == this.selectedFlight);
+     this.filteredFlights=this.flights.filter(flight=>this.selectedFlight.includes(flight.flightName));
+      console.log(this.flights);
+      console.log(this.filteredFlights);
+  }
+
+
+
+  ngOnInit(): void {
+    this.http.get('http://localhost:7777/flights-controller/all-flights')
+      .subscribe(
+        (data: any[]) => {
+          console.log('Fetched data:', data); // Log the fetched data to see its structure
+          // Assuming the response structure is an array of objects with a 'name' property
+          this.preferredAirlines = data;
+          // alert("preferredAirlines data :"+this.preferredAirlines)
+        },
+        error => {
+          console.error('Error fetching data:', error);
+        }
+      );
+  }
+  selectedItem(selectedflight: any) {
+    sessionStorage.setItem('selectedflight', JSON.stringify(selectedflight));
+    this.router.navigate(['/review']);
+    console.log("flight search =>"+selectedflight)
+  }
+
+  sort() {
+    if (this.selectedSortOption === 'asc') {
+      this.filteredFlights = this.flights.slice().sort((p1, p2) => (p1.price > p2.price ? 1 : -1));
+    } else if (this.selectedSortOption === 'dsc') {
+      this.filteredFlights = this.flights.slice().sort((p1, p2) => (p1.price > p2.price ? -1 : 1));
+    }
+  }
+
+  selectTimeRange(timeRange: string): void {
+    this.selectedTimeRange = timeRange;
+
+    // Filter flights based on the selected time range
+    switch (timeRange) {
+      case 'Before 6AM':
+        this.filteredFlights = this.flights.filter(flight => this.isBefore6AM(flight.departureTime));
+        break;
+      case '6AM - 12PM':
+        this.filteredFlights = this.flights.filter(flight => this.isBetween6AMand12PM(flight.departureTime));
+        break;
+      case '12PM - 6PM':
+        this.filteredFlights = this.flights.filter(flight => this.isBetween12PMand6PM(flight.departureTime));
+        break;
+      case 'After 6PM':
+        this.filteredFlights = this.flights.filter(flight => this.isAfter6PM(flight.departureTime));
+        break;
+      default:
+        this.filteredFlights = this.flights;
+        break;
+    }
+  }
+
+  isBefore6AM(departureTime: string): boolean {
+    const time = new Date(`${departureTime}`);
+    return time.getHours() < 6;
+  }
+
+  isBetween6AMand12PM(departureTime: string): boolean {
+    const time = new Date(`${departureTime}`);
+    const hours = time.getHours();
+    return hours >= 6 && hours < 12;
+  }
+
+  isBetween12PMand6PM(departureTime: string): boolean {
+    const time = new Date(`${departureTime}`);
+    const hours = time.getHours();
+    return hours >= 12 && hours < 18;
+  }
+
+  isAfter6PM(departureTime: string): boolean {
+    const time = new Date(`${departureTime}`);
+    return time.getHours() >= 18;
+  }
 
 }
-// <div *ngFor="let flight of flights">
-//   <div>
-//     <p>From: {{ flight.from }}</p>
-//     <p>To: {{ flight.to }}</p>
-//     <!-- Add more properties as needed -->
-//   </div>
-// </div>
-// export class FlightComponent implements OnInit {
-//   flights: any[] = JSON.parse(sessionStorage.getItem('flights') || '[]');
+function filterFlightsByPrice(this: any) {
+  const minPrice = 3000;
+  const maxPrice = 15000;
+  if (this.flights) {
+    const filteredFlights = this.flights.filter((flight: { price: number }) => flight.price >= minPrice && flight.price <= maxPrice);
 
-//   constructor() { }
+    this.flights = filteredFlights;
 
-//   ngOnInit() {
-//     // Load your flight data here or in the constructor
-//   }
-// }
+  } else {
+    console.error("this.flights are not avaliable");
+  }
+}
+
+
+export class flightsli {
+  flightName!: String
+}
+
+

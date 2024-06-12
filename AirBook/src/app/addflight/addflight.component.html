@@ -4,64 +4,74 @@
             <h2 class="text-center">Add Flight</h2>
         </div>
         <div class="card-body">
-            <form class="row g-3">
+            <form class="row g-3" (ngSubmit)="submitForm()">
                 <div class="col-md-6">
-                    <label for="flightno" class="form-label">Flight No.</label>
-                    <select class="form-select" id="flightno" name="flightno" [(ngModel)]="formData.flightno">
+                    <label for="flightName" class="form-label">Select Airline</label>
+                    <select class="form-select" id="flightName" name="flightName" [(ngModel)]="flights.flightName">
                         <option value="from">Select</option>
-                        <option value="indigo">Indigo-6E993</option>
-                        <option value="SPICEJET">SPICEJET-SG8164</option>
-                        <option value="premium economy">VISTARA-UK808</option>
-                        <option value="first class">Flybig-S9</option>
+                        <option value="IndiGO">IndiGO</option>
+                        <option value="SpiceJet">SpiceJet</option>
+                        <option value="VISTARA">VISTARA</option>
+                        <option value="AIR-INDIA">AIR-INDIA</option>
+                        <option value="AIR-INDIA">United Airlines</option>
+                        <option value="AIR-INDIA">American Airlines</option>
+                        <option value="AIR-INDIA">Delta Air Lines</option>
+                        
+
                     </select>
                 </div>
 
                 <div class="col-md-6">
                     <label for="from" class="form-label">From</label>
-                    <select class="form-select" id="from" name="from" [(ngModel)]="formData.from">
+                    <select class="form-select" id="from" name="from" [(ngModel)]="flights.from">
                         <option value="from">Select</option>
-                        <option value="bom">BOM - Mumbai</option>
-                        <option value="del">DEL - New Delhi</option>
-                        <option value="blr">BLR - Bengaluru</option>
-                        <option value="first class">Kolkata</option>
+                        <option value="Mumbai">BOM - Mumbai</option>
+                        <option value="New Delhi">DEL - New Delhi</option>
+                        <option value="Bengaluru">BLR - Bengaluru</option>
+                        <option value="Kolkata">KOL - Kolkata</option>
+                        <option value="Raipur">RPR - Raipur</option>
+                        <option value="Patna">Patna</option>
+                        <option value="Hyderabad">HYD - Hyderabad</option>
+                        <option value="Hyderabad">Gujrat</option>
+                        <option value="Hyderabad">Hariyana</option>
                     </select>
                 </div>
 
                 <div class="col-md-6">
                     <label for="to" class="form-label">To</label>
-                    <select class="form-select" id="to" name="to" [(ngModel)]="formData.to">
+                    <select class="form-select" id="to" name="to" [(ngModel)]="flights.to">
                         <option value="time">Select</option>
-                        <option value="del">DEL - New Delhi</option>
-                        <option value="hyd">HYD - Hyderabad</option>
-                        <option value="rpr">RPR - Raipur</option>
-                        <option value="first class">Patna</option>
+                        <option value="Hyderabad">Gujrat</option>
+                        <option value="Hyderabad">Hariyana</option>
+                        <option value="New Delhi">DEL - New Delhi</option>
+                        <option value="Hyderabad">HYD - Hyderabad</option>
+                        <option value="Raipur">RPR - Raipur</option>
+                        <option value="Patna">Patna</option>
+                        <option value="Bengaluru">BLR - Bengaluru</option>
+                        <option value="Kolkata">KOL - Kolkata</option>
+                        <option value="Mumbai">BOM - Mumbai</option>
                     </select>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="depart" class="form-label">Depart</label>
-                    <input type="datetime-local" class="form-control" id="depart" name="depart" [(ngModel)]="formData.depart">
+                    <label for="depart" class="form-label">Depart-Time</label>
+                    <input type="datetime-local" class="form-control" id="depart" name="depart"
+                        [(ngModel)]="flights.departureTime">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="arrive" class="form-label">Arrive</label>
-                    <input type="datetime-local" class="form-control" id="arrive" name="arrive" [(ngModel)]="formData.arrive">
+                    <label for="arrive" class="form-label">Arrival-Time</label>
+                    <input type="datetime-local" class="form-control" id="arrive" name="arrive"
+                        [(ngModel)]="flights.arrivalTime">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="duration" class="form-label">Duration</label>
-                    <select class="form-select" id="duration" name="duration" [(ngModel)]="formData.duration">
-                        <option value="time">Select</option>
-                        <option value="time">2hr 5min</option>
-                        <option value="time">2hr</option>
-                        <option value="time">24hr 20min</option>
-                        <option value="time">01hr 10min</option>
-                    </select>
+                    <label for="arrive" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" [(ngModel)]="flights.price">
                 </div>
-                
                 <div class="col-12">
                     <div class="text-center">
-                        <button type="submit" class="btn btn-success" (click)="submitForm()">Add</button>
+                        <button type="submit" class="btn btn-success">Add</button>
                     </div>
                 </div>
             </form>

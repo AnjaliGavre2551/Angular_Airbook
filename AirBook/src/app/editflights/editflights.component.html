@@ -1,0 +1,68 @@
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Update Flight</h2>
+        </div>
+        <div class="card-body">
+            <form  class="row g-3">
+                <div class="col-md-6">
+                        <label for="airline_id" class="form-label">FlightId</label>
+                        <input type="text" class="form-control" id="FlightNo" name="FlightNo"  [(ngModel)]="flightDetails.flightId" required>
+                  
+                    <!-- <select class="form-select" id="airline_id" name="airline_id" [(ngModel)]="flights.airline_id">
+                        <option value="from">Select</option>
+                        <option value="1">IndiGO</option>
+                        <option value="2">SpiceJet</option>
+                        <option value="3">VISTARA</option>
+                        <option value="4">AIR-INDIA</option>
+                    </select> -->
+                 </div>
+
+                <div class="col-md-6">
+                    <label for="from" class="form-label">From</label>
+                    <select class="form-select" id="from" name="from"  [(ngModel)]="flightDetails.from" required>
+                        <option value="from">Select</option>
+                        <option value="Mumbai" selected>BOM - Mumbai</option>
+                        <option value="New Delhi"selected>DEL - New Delhi</option>
+                        <option value="Bengaluru"selected>BLR - Bengaluru</option>
+                        <option value="Kolkata"selected>KOL - Kolkata</option>
+                        <option value="Raipur"selected>RPR - Raipur</option>
+                        <option value="Patna"selected>Patna</option>
+                        <option value="Hyderabad"selected>HYD - Hyderabad</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="to" class="form-label">To</label>
+                    <select class="form-select" id="to" name="to"  [(ngModel)]="flightDetails.to" required>
+                        <option value="time">Select</option>
+                        <option value="New Delhi"selected>DEL - New Delhi</option>
+                        <option value="Hyderabad"selected>HYD - Hyderabad</option>
+                        <option value="Raipur"selected>RPR - Raipur</option>
+                        <option value="Patna" selected>Patna</option>
+                        <option value="Bengaluru"selected>BLR - Bengaluru</option>
+                        <option value="Kolkata"selected>KOL - Kolkata</option>
+                        <option value="Mumbai"selected>BOM - Mumbai</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="depart" class="form-label">Depart-Time</label>
+                    <input type="datetime-local" class="form-control" id="depart" name="depart"  [(ngModel)]="flightDetails.departureTime" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="arrive" class="form-label">Arrival-Time</label>
+                    <input type="datetime-local" class="form-control" id="arrive" name="arrive"  [(ngModel)]="flightDetails.arrivalTime"  required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="arrive" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price"  [(ngModel)]="flightDetails.price"  required>
+                </div>
+                <button  type="submit" class="bg-success text-white py-1 px-2 rounded-md" (click)="onshowdetails()">Update Flight</button>
+                
+            </form>
+        </div>
+    </div>
+</div> 
